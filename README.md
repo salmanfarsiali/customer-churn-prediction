@@ -1,43 +1,42 @@
 # Customer Churn Prediction using Machine Learning
 
-## Overview
+A Machine Learning project to predict customer churn using the Telco Customer Churn dataset. This project explores customer behavior, performs data preprocessing, trains multiple classification models, and compares their performance using different evaluation metrics.
 
-Customer churn is a major challenge for telecommunications companies. When customers discontinue their services, businesses lose potential revenue and valuable customer relationships.
+## Project Overview
 
-This project focuses on predicting whether a telecommunications customer is likely to leave a service using Machine Learning classification algorithms.
+Customer churn occurs when customers stop using a company's products or services. For telecommunications companies, identifying customers who are likely to leave is important for improving customer retention and reducing revenue loss.
 
-The project includes Exploratory Data Analysis (EDA), data cleaning, preprocessing, model training, hyperparameter tuning, and performance evaluation to understand customer churn patterns and identify a suitable predictive model.
+In this project, I developed and evaluated four Machine Learning classification models to predict whether a customer is likely to churn.
+
+The project focuses on data analysis, preprocessing, model implementation, hyperparameter tuning, and model evaluation.
 
 ## Objectives
 
-- Understand and explore the Telco Customer Churn dataset.
-- Identify important factors influencing customer churn.
-- Clean and preprocess customer data.
-- Apply and compare different Machine Learning classification algorithms.
+- Perform Exploratory Data Analysis (EDA) to understand customer behavior.
+- Clean and preprocess the dataset.
+- Handle missing values and encode categorical features.
+- Apply feature scaling where required.
+- Train and compare multiple classification models.
+- Tune model hyperparameters.
 - Evaluate model performance using classification metrics.
-- Identify a suitable model for customer churn prediction.
+- Identify important factors associated with customer churn.
 
 ## Dataset
 
 **Dataset:** Telco Customer Churn Dataset
 
-**File:** `WA_Fn-UseC_-Telco-Customer-Churn.csv`
+**Source:** [Kaggle – Telco Customer Churn](https://www.kaggle.com/datasets/blastchar/telco-customer-churn)
 
-The dataset contains customer information related to telecommunications services, including:
+The dataset contains 7,043 customer records and 21 columns, including customer information, services, contract details, payment methods, monthly charges, total charges, and churn status.
 
-- Customer demographics
-- Account information
-- Services subscribed to
-- Contract type
-- Tenure
-- Monthly charges
-- Total charges
-- Customer churn status
+**Target Variable:**
+- `0` – Customer did not churn
+- `1` – Customer churned
 
-**Target Variable:** `Churn`
+### Churn Distribution
 
-- `0` — Customer did not churn
-- `1` — Customer churned
+- No Churn: 5,174 customers (73.46%)
+- Churn: 1,869 customers (26.54%)
 
 ## Technologies Used
 
@@ -47,130 +46,183 @@ The dataset contains customer information related to telecommunications services
 - Matplotlib
 - Seaborn
 - Scikit-learn
-- Google Colab
-- Jupyter Notebook
+- Jupyter Notebook / Google Colab
 
 ## Project Structure
 
 ```text
 customer-churn-prediction/
 │
-├── README.md
-├── .gitignore
-├── requirements.txt
-│
 ├── data/
 │   └── WA_Fn-UseC_-Telco-Customer-Churn.csv
 │
-└── customer_churn_prediction.ipynb
+├── images/
+│   ├── model_comparison.png
+│   ├── confusion_matrix.png
+│   └── roc_curves.png
+│
+├── customer_churn_prediction.ipynb
+├── README.md
+├── requirements.txt
+└── .gitignore
 ```
 
 ## Project Workflow
 
 ### 1. Exploratory Data Analysis (EDA)
 
-- Explore dataset structure, columns, and data types.
-- Check missing values and blank entries.
-- Generate descriptive statistics.
-- Analyze customer churn distribution.
-- Visualize relationships between customer features and churn.
+- Explored dataset structure, data types, and statistical summaries.
+- Checked missing values and duplicate records.
+- Analyzed the distribution of churn and non-churn customers.
+- Visualized relationships between customer features and churn.
 
 ### 2. Data Cleaning and Preprocessing
 
-- Convert `TotalCharges` into numeric format.
-- Handle missing values.
-- Remove the unnecessary `customerID` column.
-- Encode categorical variables using Label Encoding and One-Hot Encoding.
-- Apply Standard Scaling to numerical features.
-- Split the dataset into training and testing sets using stratified sampling.
+- Converted `TotalCharges` into numeric values.
+- Handled 11 missing values in `TotalCharges` by filling them with 0, corresponding to customers with zero tenure.
+- Removed the `customerID` column because it is an identifier rather than a predictive feature.
+- Encoded the target variable.
+- Applied Label Encoding to binary categorical features.
+- Applied One-Hot Encoding to multi-category features.
 
-### 3. Model Implementation
+### 3. Train-Test Split and Feature Scaling
 
-Four supervised Machine Learning classification algorithms were implemented.
+- Training data: 80%
+- Testing data: 20%
+- Random state: 42
+- Used stratified splitting to maintain the churn distribution.
+- Applied StandardScaler to numerical features.
 
-**1. Logistic Regression**
+### 4. Model Implementation
 
-A classification algorithm that estimates the probability of a customer churning using a logistic function.
+Four classification algorithms were implemented:
 
-**2. K-Nearest Neighbors (KNN)**
-
-A distance-based algorithm that predicts customer churn by considering the nearest data points.
-
-**3. Decision Tree**
-
-A tree-based algorithm that makes predictions through a sequence of decision rules based on customer features.
-
-**4. Random Forest**
-
-An ensemble learning algorithm that combines multiple decision trees to improve prediction performance and generalization.
-
-### 4. Hyperparameter Tuning
-
-Hyperparameter tuning was performed to improve model performance and compare different configurations.
-
-- Experimented with different K values for KNN.
-- Tuned Decision Tree parameters such as `max_depth` and `min_samples_leaf`.
-- Tuned Random Forest parameters such as `n_estimators`, `max_depth`, and `max_features`.
+| Model | Implementation |
+|---|---|
+| Logistic Regression | Binary classification |
+| K-Nearest Neighbors (KNN) | Tested K = 3, 5, 7, 9 |
+| Decision Tree | Tuned max_depth and min_samples_leaf |
+| Random Forest | Tuned n_estimators, max_depth, and max_features |
 
 ### 5. Model Evaluation
 
-The models were evaluated using the following performance metrics:
+The models were evaluated using:
 
 - Accuracy
 - Precision
 - Recall
 - F1 Score
 - ROC-AUC
-
-Additional evaluation techniques included:
-
 - Confusion Matrix
-- True Positive (TP)
-- False Positive (FP)
-- True Negative (TN)
-- False Negative (FN)
 - ROC Curve
-- Model Performance Comparison
 
-## Key Findings
+## Model Performance Comparison
+
+The following table shows the actual evaluation results from the notebook.
+
+| Model | Accuracy | Precision | Recall | F1 Score | ROC-AUC |
+|---|---:|---:|---:|---:|---:|
+| Logistic Regression | 0.8062 | 0.6593 | 0.5588 | **0.6049** | **0.8422** |
+| Random Forest | **0.8077** | **0.6700** | 0.5428 | 0.5997 | 0.8384 |
+| Decision Tree | 0.7956 | 0.6335 | 0.5455 | 0.5862 | 0.8268 |
+| KNN (k=9) | 0.7729 | 0.5730 | **0.5668** | 0.5699 | 0.8079 |
+
+### Model Comparison Visualization
+
+![Model Performance Comparison](images/model_comparison.png)
+
+### Key Observations
+
+- Logistic Regression achieved the highest ROC-AUC (0.8422) and F1 Score (0.6049).
+- Random Forest achieved the highest Accuracy (0.8077) and Precision (0.6700).
+- KNN achieved the highest Recall (0.5668), although its overall performance was lower.
+- Decision Tree provided a relatively interpretable model but performed below Logistic Regression and Random Forest on the main evaluation metrics.
+
+Based on these results, Logistic Regression provides the strongest balance of F1 Score and ROC-AUC, while Random Forest offers slightly higher Accuracy and Precision.
+
+## Confusion Matrix
+
+A confusion matrix helps understand how correctly each model identifies churn and non-churn customers.
+
+| Model | TN | FP | FN | TP |
+|---|---:|---:|---:|---:|
+| Logistic Regression | 927 | 108 | 165 | 209 |
+| KNN (k=9) | 877 | 158 | 162 | 212 |
+| Decision Tree | 917 | 118 | 170 | 204 |
+| Random Forest | 935 | 100 | 171 | 203 |
+
+Where:
+
+- **True Positive (TP):** Correctly predicted churn customers.
+- **True Negative (TN):** Correctly predicted non-churn customers.
+- **False Positive (FP):** Predicted churn, but the customer did not churn.
+- **False Negative (FN):** Predicted non-churn, but the customer actually churned.
+
+![Confusion Matrix](images/confusion_matrix.png)
+
+In this business problem, False Negatives are particularly important because they represent customers who may leave without receiving a retention offer.
+
+## ROC Curves
+
+ROC curves illustrate the relationship between the True Positive Rate and False Positive Rate at different classification thresholds.
+
+A higher ROC-AUC generally indicates better ability to distinguish between churn and non-churn customers.
+
+![ROC Curves](images/roc_curves.png)
+
+The Logistic Regression model achieved the highest ROC-AUC of 0.8422 in this experiment.
+
+## Key Business Insights
 
 The exploratory analysis and feature importance results highlighted several factors associated with customer churn:
 
-- **Contract Type:** Customers with month-to-month contracts are more likely to leave.
-- **Tenure:** Customers with shorter service periods show higher churn rates.
-- **Monthly Charges:** Higher monthly charges are associated with increased churn.
-- **Internet Services:** Internet service type and the availability of additional services can influence churn.
-- **Payment Method:** Customers using electronic check payments tend to have higher churn rates.
+- **Contract Type:** Customers with month-to-month contracts showed higher churn rates.
+- **Tenure:** Newer customers were more likely to churn than long-term customers.
+- **Monthly Charges:** Customers with higher monthly charges showed higher churn rates.
+- **Internet Services:** Customers without additional services such as OnlineSecurity and TechSupport showed higher churn rates.
+- **Payment Method:** Customers using electronic checks showed higher churn rates than those using automatic payment methods.
 
-## Model Comparison and Recommendation
+These findings can help telecom companies identify customers who may need additional support, better service options, or targeted retention offers.
 
-Based on the model comparison and evaluation discussion:
+## Model Recommendation
 
-**Random Forest** is the recommended candidate for deployment because it generally provides strong predictive performance and useful feature importance information.
+Based on the actual evaluation results:
 
-**Logistic Regression** is a strong alternative when model interpretability is important. Its coefficients make it easier to understand how different customer features influence churn predictions.
+- **Logistic Regression:** A strong choice when ROC-AUC, F1 Score, and model simplicity are important.
+- **Random Forest:** A suitable alternative when Accuracy, Precision, and feature importance analysis are priorities.
 
-The final model selection should also consider the business cost of false positives and false negatives.
+For this experiment, Logistic Regression achieved the highest ROC-AUC and F1 Score. Random Forest achieved the highest Accuracy and Precision.
 
-## Business Insights
-
-Customer churn prediction can help telecommunications companies identify customers who are at risk of leaving their services.
-
-Businesses can use these predictions to:
-
-- Develop targeted customer retention strategies.
-- Identify customers who may need additional support.
-- Offer suitable incentives and promotional campaigns.
-- Reduce avoidable customer losses.
-- Improve customer satisfaction and long-term relationships.
-
-For this business problem, recall is particularly important because missing an actual churner can result in lost revenue. However, precision also matters when retention offers involve significant costs.
+The final model choice should depend on the business objective, particularly the cost of missing potential churn customers versus the cost of unnecessary retention offers.
 
 ## Limitations and Future Improvements
 
-- Apply k-fold cross-validation for more reliable model evaluation.
-- Explore advanced boosting algorithms such as XGBoost, LightGBM, and CatBoost.
-- Perform classification threshold tuning based on business requirements.
-- Use SHAP values for better model interpretability.
-- Incorporate customer behavior, usage trends, and support interaction data.
-- Explore additional techniques to handle class imbalance.
+### Limitations
+
+- The dataset represents a static snapshot of customer information.
+- The dataset has class imbalance, with approximately 27% churn.
+- The default classification threshold of 0.5 may not be optimal for business requirements.
+- Customer support interactions and sentiment data are not included.
+- Hyperparameter tuning uses a limited search rather than full cross-validation.
+
+### Future Improvements
+
+- Apply K-Fold Cross-Validation.
+- Experiment with XGBoost, LightGBM, and CatBoost.
+- Perform classification threshold tuning.
+- Use SHAP for model explainability.
+- Include customer usage patterns and support interaction data.
+- Explore strategies to improve churn-class recall.
+
+## Conclusion
+
+This project helped me understand how Machine Learning can be applied to a practical business problem.
+
+By exploring customer data and comparing four classification algorithms, I learned how data preprocessing, feature scaling, hyperparameter tuning, and model evaluation affect prediction performance.
+
+The results showed that Logistic Regression and Random Forest were the strongest models in this experiment, with different strengths across evaluation metrics.
+
+
+---
+
+*This project was developed as part of my Machine Learning learning journey.*
